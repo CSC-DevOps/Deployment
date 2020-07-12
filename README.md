@@ -40,7 +40,7 @@ We will first setup a basic pipeline that will have two deployment endpoints for
 
 ### Initializing our deployment endpoints.
 
-We'll create two endpoints for our deployment, a "green" endpoint for our baseline, and a "blue" endpoint for our new production code.
+We'll create two endpoints for our deployment, a "green" endpoint for our new production code, and a "blue" endpoint for our baseline.
 
 Inside `GREEN`, `bakerx ssh green`, run:
 
