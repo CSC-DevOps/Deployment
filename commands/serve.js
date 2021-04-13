@@ -43,7 +43,7 @@ class Production
         {
             // callback for redirecting requests.
         });
-        server.listen(3080);
+        server.listen(3090);
    }
 
    failover()
@@ -68,7 +68,7 @@ class Production
 
 async function run() {
 
-    console.log(chalk.keyword('pink')('Starting proxy on localhost:3080'));
+    console.log(chalk.keyword('pink')('Starting proxy on localhost:3090'));
 
     let prod = new Production();
     prod.proxy();
