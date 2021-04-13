@@ -11,8 +11,8 @@ targets:
 
 # Configure pipeline and infrastructure
 
-Part 1. [Setup and Overview](README.md) ⬅️  
-Part 2. [Configure pipeline and infrastructure](Pipeline.md)   
+Part 1. [Setup and Overview](README.md)   
+Part 2. [Configure pipeline and infrastructure](Pipeline.md) ⬅️  
 Part 3. [Implement deployment strategy](Deploy.md)  
 
 ### Setting up our Pipeline
@@ -93,3 +93,19 @@ set GIT_SSH_COMMAND=ssh -i ~/.bakerx/insecure_private_key
 git push green master
 git push blue master
 ```
+
+### Testing deployment
+
+We can go into our blue environment, `bakerx ssh blue`, and start our server:
+
+```
+cd meow.io/blue-www
+# Create database
+node data/init.js
+# Start web server
+npm start
+```
+
+Visit http://192.168.44.25:3000 in your browser to see if meow.io 😻 is running!
+
+Repeat the same for the `GREEN` environment.

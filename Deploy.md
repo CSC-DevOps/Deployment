@@ -4,23 +4,7 @@ Part 1. [Setup and Overview](README.md)
 Part 2. [Configure pipeline and infrastructure](Pipeline.md)  
 Part 3. [Implement deployment strategy](Deploy.md) ⬅️  
 
-### Testing deployment
-
-We can go into our blue environment, `bakerx ssh blue`, and start our server:
-
-```
-cd meow.io/blue-www
-# Create database
-node data/init.js
-# Start web server
-npm start
-```
-
-Visit http://192.168.44.25:3000 in your browser to see if meow.io 😻 is running!
-
-Repeat the same for the `GREEN` environment.
-
-## Settting up Infrastructure
+## Settting up deployment strategy
 
 Currently, we can deploy changes to our different VMs---however---we have nothing that regulates the control of traffic, nor logic which determines which `TARGET` is active. We will set up our infrastructure to fully handle a deployment, including automatic failover.
 
