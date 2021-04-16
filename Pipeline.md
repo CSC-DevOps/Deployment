@@ -26,7 +26,7 @@ We'll create two endpoints for our deployment, a "green" endpoint for our new pr
 Inside `GREEN`, `bakerx ssh green`, run:
 
 ```bash
-mkdir -p meow.io/green.git meow.io/green-www
+mkdir -p meow.io/green.git meow.io/www
 cd meow.io/green.git
 git init --bare
 ```
@@ -37,7 +37,7 @@ git init --bare
 Inside `BLUE`, `bakerx ssh blue`, run:
 
 ```bash
-mkdir -p meow.io/blue.git meow.io/blue-www
+mkdir -p meow.io/blue.git meow.io/www
 cd meow.io/blue.git
 git init --bare
 ```
@@ -59,12 +59,15 @@ chmod +x post-receive
 
 Place the following content inside:
 
-    GIT_WORK_TREE=/home/vagrant/meow.io/green-www git checkout -f
-    cd /home/vagrant/meow.io/green-www && npm install
+```bash
+GIT_WORK_TREE=/home/vagrant/meow.io/www git checkout -f
+cd /home/vagrant/meow.io/www && npm install
+[ ! -f "data/meowio.db" ] && node data/init.js
+npm stop
+npm start
+```                             
 
 Repeat for `BLUE`.
-
-> Note: when repeating for `BLUE` make sure to update the paths inside `post-receive` hook.
 
 ### Setting git remotes
 
@@ -82,7 +85,7 @@ On your host computer, clone the [meow.io repo](https://github.com/CSC-DevOps/me
 
 You can now push changes in the following manner.
 
-    GIT_SSH_COMMAND="ssh -i ~/.bakerx/insecure_private_key" 
+    export GIT_SSH_COMMAND="ssh -i ~/.bakerx/insecure_private_key -o StrictHostKeyChecking=no" 
     git push green master
     git push blue master
 
