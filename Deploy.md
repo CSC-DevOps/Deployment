@@ -69,25 +69,30 @@ git push green master -f
 
 ### Task 3: Feature Flag
 
-Notice that meow.io is not currently displaying any recent images. Set the value `RECENT=ON` inside the redis server on the `BLUE` environment.
+A feature flag can be a powerful tool to assist with deployment. It can be used to fence off new features or quickly turn off buggy features without needing to rollback a commit.
 
-![off](img/meow.io-off.png)
+Add a feature flag to turn on/off the recent uploads feature. The pug template file already [contains a boolean for turning off the display](https://github.com/CSC-DevOps/meow.io/blob/master/views/index.pug#L7). 
 
-You should be able to see the feature turned on:
+Modify the index route to fetch the feature flag from the redis store: `recentFlag: getFlag('ON')` on the server.
 
+You should be able to see the feature turned off or on by setting the flag on the blue server:
+
+On: 
 ![on](img/meow.io-flag.png)
 
-A feature flag can be a powerful tool to assist with deployment. It can be used to fence off new features or quickly turn off buggy features without needing to rollback a commit.
+Off:
+![off](img/meow.io-off.png)
 
 ### Task 4: Extra---Sync/migrate the database
 
-Our infrastructure handles a lot now, but there is one detail missing. If a switch occurs while the `GREEN` environment received data, that data would be lost when switching back to the `BLUE` environment.
+Our infrastructure implements a basic green/blue deployment strategy, but there is one detail missing. If a switch occurs while the `GREEN` environment received data, that data would be lost when switching back to the `BLUE` environment.
 
-We have three possible strategies we can add to handle this which making the switch over.
+We have a few possible strategies we can add to handle this which making the switch over.
 
 **Strategy 1**: Copy database file.
 
 This strategy will dump and then move over the whole sqlite database.
+
 ```bash
 sqlite3 "/home/vagrant/green-www/data/meowio.db" ".backup /tmp/dbbackup.sqlite"
 rsync vagrant@BLUE:"/tmp/dbbackup.sqlite" "/home/vagrant/blue-www/data/meowio.db"
